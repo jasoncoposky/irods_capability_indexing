@@ -339,6 +339,7 @@ namespace irods {
             const std::string& _attribute,
             const std::string& _value,
             const std::string& _units) {
+
             using fsp = irods::experimental::filesystem::path;
 
             const auto indexing_resources = get_indexing_resource_names();
@@ -353,10 +354,12 @@ namespace irods {
 
             std::vector<std::string> processed_indicies;
             fsp full_path{_object_path};
+
+            const auto root = fsp{std::string{fsp::preferred_separator}};
             auto coll = full_path.parent_path();
-            while(!coll.empty()) {
+            while(coll != root) {
                 try {
-                    auto metadata = 
+                    auto metadata =
                         get_metadata_for_collection(
                             coll.string(),
                             config_.index);
@@ -392,7 +395,7 @@ namespace irods {
                         }
                     } // for row
                 }
-                catch(const irods::exception&) {
+                catch(const irods::exception& _e) {
                 }
 
                 coll = coll.parent_path();

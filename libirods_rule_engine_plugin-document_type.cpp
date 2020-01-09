@@ -107,8 +107,8 @@ irods::error exec_rule(
     try {
         // Extract parameters from args
         auto it = _args.begin();
-        const std::string  object_path{ boost::any_cast<std::string>(*it) }; ++it;
-        const std::string  source_resource{ boost::any_cast<std::string>(*it) }; ++it;
+        const std::string  object_path{ irods::indexing::any_to_string(*it) }; ++it;
+        const std::string  source_resource{ irods::indexing::any_to_string(*it) }; ++it;
         std::string* document_type{ boost::any_cast<std::string*>(*it) }; ++it;
 
         invoke_document_type_indexing_event(

@@ -30,6 +30,7 @@ add_library(
 target_include_directories(
     ${TARGET_NAME}
     PRIVATE
+    /opt/irods-externals/json3.1.2-0/include
     ${IRODS_INCLUDE_DIRS}
     ${IRODS_EXTERNALS_FULLPATH_BOOST}/include
     ${IRODS_EXTERNALS_FULLPATH_JSON}/include

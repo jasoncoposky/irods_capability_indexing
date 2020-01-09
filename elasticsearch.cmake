@@ -30,12 +30,13 @@ target_include_directories(
     ${TARGET_NAME}
     PRIVATE
     ${IRODS_INCLUDE_DIRS}
+    /opt/irods-externals/json3.1.2-0/include
     ${IRODS_EXTERNALS_FULLPATH_BOOST}/include
     ${IRODS_EXTERNALS_FULLPATH_JSON}/include
     ${IRODS_EXTERNALS_FULLPATH_JANSSON}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-    /opt/irods-externals/elasticlient0.1.0-0/include/
-    /opt/irods-externals/cpr1.3.0-0/include/
+    /opt/irods-externals/elasticlient0.1.0-0/include
+    /opt/irods-externals/cpr1.3.0-0/include
     )
 
 target_link_libraries(

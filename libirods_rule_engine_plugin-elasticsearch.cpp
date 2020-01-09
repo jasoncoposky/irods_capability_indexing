@@ -84,8 +84,8 @@ namespace {
         args.push_back(boost::any(_source_resource));
         args.push_back(boost::any(_document_type));
         std::string policy_name = irods::indexing::policy::compose_policy_name(
-                                  irods::indexing::policy::prefix,
-                                  "document_type_elastic");
+                                      irods::indexing::policy::prefix,
+                                      "document_type_elastic");
         irods::indexing::invoke_policy(_rei, policy_name, args);
 
     } // apply_document_type_policy
@@ -205,6 +205,7 @@ namespace {
                 ds.read(read_buff, read_size);
                 std::string data{read_buff};
 
+                //json::escape_string(data) // XXXX - TODO
                 // filter out new line characters
                 data.erase(
                     std::remove_if(
@@ -473,16 +474,16 @@ irods::error start(
     config = std::make_unique<configuration>(_instance_name);
     object_index_policy = irods::indexing::policy::compose_policy_name(
                                irods::indexing::policy::object::index,
-                               "elastic");
+                               "elasticsearch");
     object_purge_policy = irods::indexing::policy::compose_policy_name(
                                irods::indexing::policy::object::purge,
-                               "elastic");
+                               "elasticsearch");
     metadata_index_policy = irods::indexing::policy::compose_policy_name(
                                irods::indexing::policy::metadata::index,
-                               "elastic");
+                               "elasticsearch");
     metadata_purge_policy = irods::indexing::policy::compose_policy_name(
                                irods::indexing::policy::metadata::purge,
-                               "elastic");
+                               "elasticsearch");
 
     elasticlient::setLogFunction(log_fcn);
     return SUCCESS();
@@ -529,9 +530,9 @@ irods::error exec_rule(
     try {
         if(_rn == object_index_policy) {
             auto it = _args.begin();
-            const std::string object_path{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string source_resource{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string index_name{ boost::any_cast<std::string>(*it) }; ++it;
+            const std::string object_path{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string source_resource{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string index_name{ irods::indexing::any_to_string(*it) }; ++it;
 
             invoke_indexing_event_full_text(
                 rei,
@@ -541,9 +542,9 @@ irods::error exec_rule(
         }
         else if(_rn == object_purge_policy) {
             auto it = _args.begin();
-            const std::string object_path{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string source_resource{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string index_name{ boost::any_cast<std::string>(*it) }; ++it;
+            const std::string object_path{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string source_resource{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string index_name{ irods::indexing::any_to_string(*it) }; ++it;
 
             invoke_purge_event_full_text(
                 rei,
@@ -553,11 +554,11 @@ irods::error exec_rule(
         }
         else if(_rn == metadata_index_policy) {
             auto it = _args.begin();
-            const std::string object_path{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string attribute{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string value{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string unit{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string index_name{ boost::any_cast<std::string>(*it) }; ++it;
+            const std::string object_path{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string attribute{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string value{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string unit{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string index_name{ irods::indexing::any_to_string(*it) }; ++it;
 
             invoke_indexing_event_metadata(
                 rei,
@@ -569,11 +570,11 @@ irods::error exec_rule(
         }
         else if(_rn == metadata_purge_policy) {
             auto it = _args.begin();
-            const std::string object_path{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string attribute{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string value{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string unit{ boost::any_cast<std::string>(*it) }; ++it;
-            const std::string index_name{ boost::any_cast<std::string>(*it) }; ++it;
+            const std::string object_path{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string attribute{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string value{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string unit{ irods::indexing::any_to_string(*it) }; ++it;
+            const std::string index_name{ irods::indexing::any_to_string(*it) }; ++it;
 
             invoke_purge_event_metadata(
                 rei,
